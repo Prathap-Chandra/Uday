@@ -1,0 +1,25 @@
+{
+  "name": "uday",
+  "version": "1.0.0",
+  "description": "APIs for MCQs",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prathap-Chandra/Uday.git"
+  },
+  "author": "Prathap Chandra <prathap.chandra.754@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Prathap-Chandra/Uday/issues"
+  },
+  "homepage": "https://github.com/Prathap-Chandra/Uday#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
