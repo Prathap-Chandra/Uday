@@ -1,5 +1,3 @@
-// https://git.heroku.com/calm-brushlands-88366.git
-
 const express = require('express')
 const app = express();
 
@@ -11,6 +9,7 @@ app.get("/", (req,res) => {
     // res.status(200).json({
     //     message: "home page"
     // })
+    console.log(req.headers["user-agent"]);
     res.send('<h1>Hello</h1>')
 })
 
