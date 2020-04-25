@@ -12,6 +12,7 @@ const getRandomNum = (len) => {
     if(len > 1){
         add = Math.pow(10,len-1);
         mul = Math.pow(10,len-1) * 9;
+        
     }
     return Math.floor(add + Math.random() * mul);
 }
