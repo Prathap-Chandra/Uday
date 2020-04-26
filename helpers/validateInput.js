@@ -7,15 +7,6 @@ const validate = (input) => {
     return (isValid.questions && isValid.digits && isValid.borrow) ? true : false;
 }
 
-const getRandomNum = (len) => {
-    let add = 1, mul = 9;
-    if(len > 1){
-        add = Math.pow(10,len-1);
-        mul = Math.pow(10,len-1) * 9;
-    }
-    return Math.floor(add + Math.random() * mul);
-}
-
 const getRandomArbitrary = (min, max) => {
     let options = [];
     for(let i = 0; i < 3; i++){
@@ -31,36 +22,48 @@ const getRandomNumber = () => {
 const generateQuestions = (input) => {
     if(validate(input)){
         let questions = input.questions, minuend = input.digits.minuend, subtrahend = input.digits.subtrahend;
-        let borrow = input.borrow, multiple_choice = [], valOne, valTwo, flag = true, strOne, strTwo, noNegative;
-        let min_str = "", sub_str = "";
-        let first = 0, second = 0;
+        let borrow = input.borrow, multiple_choice = [];
         for(let i = 0; i < questions; i++){
+            let min_str = "", sub_str = "";
             if(!borrow){
                 for(let i = 0; i < subtrahend; i++){
-                    do {
-                        first = getRandomNumber();
-                        second = getRandomNumber();
-                    } while (first < second);
-                    min_str += first; sub_str += second;
-                }
-                
-                for(let i = min_str.length; i < minuend; i++){
-                    min_str += getRandomNumber();
+                    let first = getRandomNumber();
+                    let second = getRandomNumber();
+                    if(first < second){
+                        let temp = first;
+                        first = second;
+                        second = temp;
+                    }
+                    
+                    min_str = first + min_str;
+                    sub_str = second + sub_str;
                 }
             }else{
-                do {
-                    valOne = getRandomNum(minuend); strOne = valOne.toString().split("");
-                    valTwo = getRandomNum(subtrahend); strTwo = valTwo.toString().split("");
-                    for(let i = strTwo.length - 1; i >=0; i--){
-                        if(parseInt(strOne[i]) < parseInt(strTwo[i])) flag = false;
+                let flag = true, array = [];
+                while(flag){
+                    if(array) array = [];
+                    if(min_str) min_str = "";
+                    if(sub_str) sub_str = "";
+                    for(let i = 0; i < subtrahend; i++){
+                        do {
+                            var first = getRandomNumber();
+                            var second = getRandomNumber();
+                        } while (first === second);
+                        min_str += first;
+                        sub_str += second;
+                        first < second ? array.push(1) : array.push(0); 
+                        console.log(first," ",second);
+                        if(array.includes(0) && array.includes(1) && (parseInt(min_str) > parseInt(sub_str))){
+                            flag = false;
+                        }
                     }
-                    console.log(typeof strOne, strOne ,"strOne");
-                    console.log(typeof strTwo, strTwo, "strTwo")
-                    console.log("valOne > valTwo ",valOne > valTwo)
-                    console.log("flag ",flag)
-                } while (flag || (valOne < valTwo));
-                return "Sorry";
+                }
             }
+
+            for(let i = min_str.length; i < minuend; i++){
+                min_str = Math.floor(1 + Math.random() * 9) + min_str;
+            }
+
             min_str = parseInt(min_str);
             sub_str = parseInt(sub_str);
             let correct_answer = min_str - sub_str;
@@ -70,7 +73,7 @@ const generateQuestions = (input) => {
             options.sort(() => Math.random() - 0.5);
             multiple_choice.push({
                 "Minuend": min_str,
-                "Subtrahend": sub_str,
+                "Subtrah": sub_str,
                 "Correct Answer": correct_answer,
                 "Options": options
             })
