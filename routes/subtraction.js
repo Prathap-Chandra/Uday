@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const validate = require("../helpers/validateInput");
+
 router.post("/", (req,res) => {
     let response = validate(req.body);
     if(response){
